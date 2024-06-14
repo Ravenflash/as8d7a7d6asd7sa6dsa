@@ -67,7 +67,8 @@ namespace Ravenflash.GamePrototype
 
         public void Hide()
         {
-            IsActiveAndClickable = false;
+            if (_animationCoroutine is object) StopCoroutine(_animationCoroutine);
+            _animationCoroutine = StartCoroutine(HideAnimation(animationDuration));
         }
 
         public bool Equals(Card other)
@@ -105,7 +106,6 @@ namespace Ravenflash.GamePrototype
             transform.localScale = SCALE_ZOOMED * Vector3.one;
 
             GameEventManager.InvokeCardFlipped(this);
-            //Unflip(2f);
         }
 
         IEnumerator UnflipAnimation(float duration, float delay = 0)
@@ -126,6 +126,22 @@ namespace Ravenflash.GamePrototype
             transform.localScale = Vector3.one;
 
         }
+
+        IEnumerator HideAnimation(float duration)
+        {
+            float progress = 0;
+            Vector3 startScale = Vector3.one * SCALE_ZOOMED;
+
+            while (this && duration > 0 && progress < 1f)
+            {
+                transform.localScale = Vector3.Lerp(startScale, Vector3.zero, progress);
+                progress += Time.deltaTime / duration;
+                yield return null;
+            }
+            transform.localScale = Vector3.zero;
+            IsActiveAndClickable = false;
+        }
+
         IEnumerator UpdateImage()
         {
             while (this)
