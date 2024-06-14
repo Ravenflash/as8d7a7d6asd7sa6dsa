@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 namespace Ravenflash.GamePrototype
@@ -10,11 +11,21 @@ namespace Ravenflash.GamePrototype
     {
         const float SCALE_ZOOMED = 1.1f;
 
+        [SerializeField] SpriteAtlas _atlas;
+        [SerializeField] string _reverseSpriteName;
         [SerializeField] float animationDuration = .2f;
 
         Coroutine _animationCoroutine;
+        Coroutine _updateImageCoroutine;
 
         #region Properties
+        [field: SerializeField]
+        public string SpriteName { get; set; }
+
+        [Header("Optional")]
+        [SerializeField] Camera _camera;
+        Camera Camera { get { if (!_camera) _camera = Camera.main; return _camera; } }
+
         [SerializeField] Button _button;
         Button Button { get { if (!_button) _button = GetComponent<Button>(); return _button; } }
 
@@ -31,8 +42,16 @@ namespace Ravenflash.GamePrototype
                 Image.enabled = value;
             }
         }
+
+        public bool IsFacingCamera => Vector3.Dot(transform.forward, Camera.transform.forward) < 0;
         #endregion
 
+        void Start()
+        {
+            SetSprite(_reverseSpriteName);
+
+            _updateImageCoroutine = StartCoroutine(UpdateImage());
+        }
 
         public void Flip()
         {
@@ -53,9 +72,19 @@ namespace Ravenflash.GamePrototype
 
         public bool Equals(Card other)
         {
-            // TODO: Implement Equals
-            return other.name == name;
+            return other.SpriteName == SpriteName;
         }
+
+
+        private void SetSprite(string spriteName)
+        {
+            try
+            {
+                Image.sprite = _atlas.GetSprite(spriteName);
+            }
+            catch { throw; }
+        }
+
 
         #region Animations
         IEnumerator FlipAnimation(float duration)
@@ -96,6 +125,14 @@ namespace Ravenflash.GamePrototype
             }
             transform.localScale = Vector3.one;
 
+        }
+        IEnumerator UpdateImage()
+        {
+            while (this)
+            {
+                SetSprite(IsFacingCamera ? SpriteName : _reverseSpriteName);
+                yield return null;
+            }
         }
 
         #endregion

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceede7acb582ff54e9ef1e32d7179fd2, type: 3}
+  m_Name: Default Game Manager Settings
+  m_EditorClassIdentifier: 
+  cardDisplayDuration: 2
+  cardNames:
+  - card-banana
+  - card-cherry
+  - card-coconut
+  - card-gapple
+  - card-grape
+  - card-kiwi
+  - card-lemon
+  - card-mango
+  - card-melon
+  - card-peach
+  - card-pear
+  - card-pineapple
+  - card-rapple
+  - card-strawberry
+  - card-tangerine
+  - card-tomato
+  - card-watermelon
+  layouts:
+  - cols: 6
+    rows: 4

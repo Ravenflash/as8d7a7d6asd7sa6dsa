@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Ravenflash.GamePrototype
 {
@@ -10,6 +12,7 @@ namespace Ravenflash.GamePrototype
     {
         [SerializeField] GridLayoutGroup _layout;
         [SerializeField] Card _cardPrefab;
+        [SerializeField] GameManagerSettings _settings;
 
 
         List<Card> _cards;
@@ -25,15 +28,15 @@ namespace Ravenflash.GamePrototype
         #region Public Methods
         public void NewGame()
         {
-            // Setup Layout
-            _layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            _layout.constraintCount = 3;
-
             try
             {
+                // Setup Layout
+                _layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                _layout.constraintCount = _settings.layouts[0].cols;
+
                 // Spawn Cards
                 RemoveAllChildren(_layout.transform);
-                SpawnCards(12);
+                SpawnCards(_settings.layouts[0].CardCount);
 
                 // Start Game
                 StartGame();
@@ -62,12 +65,35 @@ namespace Ravenflash.GamePrototype
 
         private void SpawnCards(int cardsCount)
         {
+            if (cardsCount % 2f != 0) throw new Exception("Card Count can't be odd! You need pairs.");
+
+            List<string> allCardNames = _settings.cardNames.ToList();
+            List<string> randomCardPairs = new List<string>();
+            string[] shuffledCardNames = new string[cardsCount];
+
+            int rand;
+            for (int i = 0; i < cardsCount / 2; i++)
+            {
+                rand = Random.Range(0, allCardNames.Count);
+                randomCardPairs.Add(allCardNames[rand]);
+                randomCardPairs.Add(allCardNames[rand]);
+                allCardNames.RemoveAt(rand);
+            }
+
+            for (int i = 0; i < cardsCount; i++)
+            {
+                rand = Random.Range(0, randomCardPairs.Count);
+                shuffledCardNames[i] = randomCardPairs[rand];
+                randomCardPairs.RemoveAt(rand);
+            }
+
             _cards = new List<Card>();
             Card card;
-            for (int i = 0; i < cardsCount; i++)
+            for (int i = 0; i < shuffledCardNames.Length; i++)
             {
                 card = Instantiate(_cardPrefab, _layout.transform);
 
+                card.SpriteName = shuffledCardNames[i];
                 card.IsClickable = false;
                 _cards.Add(card);
             }
@@ -111,7 +137,7 @@ namespace Ravenflash.GamePrototype
         private IEnumerator UnflipDelayed(Card c1, Card c2)
         {
             float startTime = Time.timeSinceLevelLoad;
-            while (this && Time.timeSinceLevelLoad - startTime < 2f)
+            while (this && Time.timeSinceLevelLoad - startTime < _settings.cardDisplayDuration)
             {
                 yield return null;
             }
