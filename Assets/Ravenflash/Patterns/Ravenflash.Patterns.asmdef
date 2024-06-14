@@ -1,8 +1,8 @@
 {
-    "name": "Ravenflash.GamePrototype",
-    "rootNamespace": "Ravenflash.GamePrototype",
+    "name": "Ravenflash.Patterns",
+    "rootNamespace": "Ravenflash.Patterns",
     "references": [
-        "GUID:5ab1cf6072d8032469d9da09a72b318c"
+        "GUID:1491147abca9d7d4bb7105af628b223e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
