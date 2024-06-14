@@ -17,6 +17,7 @@ namespace Ravenflash.GamePrototype
 
         List<Card> _cards;
         Queue<Card> _queue;
+        int _currentStage = 0;
 
         #region Unity Methods
         private void OnDestroy()
@@ -26,29 +27,49 @@ namespace Ravenflash.GamePrototype
         #endregion
 
         #region Public Methods
-        public void NewGame()
+        public void StartNewGame()
         {
             try
             {
-                // Setup Layout
-                _layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                _layout.constraintCount = _settings.layouts[0].cols;
-
-                // Spawn Cards
-                RemoveAllChildren(_layout.transform);
-                SpawnCards(_settings.layouts[0].CardCount);
-
-                // Start Game
+                SetupStage(0);
                 StartGame();
-
-                // Score 
-                // Complete Level
             }
             catch { throw; }
         }
+
+        public void StartNextStage()
+        {
+            try
+            {
+                if (_cards is object && _cards.Count > 0) throw new Exception("Can't start next stage. Current stage is in progress.");
+                SetupStage(_currentStage+1);
+                StartGame();
+            }
+            catch { throw; }
+        }
+
         #endregion
 
         #region Private Methods
+        private void SetupStage(int stageId)
+        {
+            _currentStage = stageId;
+            CardLayout cardLayout = GetCardLayout(stageId);
+            // Setup Layout
+            _layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            _layout.constraintCount = cardLayout.cols;
+
+            // Spawn Cards
+            RemoveAllChildren(_layout.transform);
+            SpawnCards(cardLayout.CardCount);
+        }
+
+        private CardLayout GetCardLayout(int stageId)
+        {
+            // Return CardLayout based on stageId or Loop the last CardLayout
+            return stageId >= _settings.layouts.Length ? _settings.layouts[_settings.layouts.Length - 1] : _settings.layouts[stageId];
+        }
+
         private void StartGame()
         {
             _queue = new Queue<Card>();
@@ -114,23 +135,35 @@ namespace Ravenflash.GamePrototype
             {
                 c1.Hide();
                 c2.Hide();
+                _cards.Remove(c1);
+                _cards.Remove(c2);
+                if (_cards.Count <= 0) StageComplete();
             }
             else
             {
                 StartCoroutine(UnflipDelayed(c1, c2));
             }
         }
+
+        private void StageComplete()
+        {
+            Debug.Log("Level Complete");
+            EndGame();
+            GameEventManager.InvokeStageCompleted();
+            StartNextStage();
+        }
+
         #endregion
 
         #region Event Handlers
         private void HandleCardSelected(Card card)
         {
-            Debug.Log($"Card {card.name} Selected.");
+            //Debug.Log($"Card {card.name} Selected.");
         }
 
         private void HandleCardFlipped(Card card)
         {
-            Debug.Log($"Card {card.name} Displayed.");
+            //Debug.Log($"Card {card.name} Displayed.");
             _queue.Enqueue(card);
             if (_queue.Count >= 2) CompareLastTwoCards();
         }

@@ -13,5 +13,10 @@ namespace Ravenflash.GamePrototype
 
         public static void InvokeCardSelected(Card card) => onCardSelected?.Invoke(card);
         public static void InvokeCardFlipped(Card card) => onCardFlipped?.Invoke(card);
+
+        // Gameplay Events
+        public static event Action onStageCompleted;
+
+        public static void InvokeStageCompleted() => onStageCompleted?.Invoke();
     }
 }
