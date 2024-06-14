@@ -14,6 +14,8 @@ namespace Ravenflash.GamePrototype
 
     public class AppManager : Singleton<AppManager>
     {
+        [SerializeField] AppSettings _settings;
+
         // Note: Find methods are costly but you can cache it.
         // Also it will not be called as long as the GameManager ref is provided in the editor.
         [SerializeField] GameManager _game;
@@ -21,7 +23,7 @@ namespace Ravenflash.GamePrototype
 
         private void Start()
         {
-            Application.targetFrameRate = 30;
+            Application.targetFrameRate = _settings.fps;
             Game.StartNewGame();
         }
     }
