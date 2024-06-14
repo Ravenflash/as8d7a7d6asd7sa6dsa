@@ -14,10 +14,9 @@ namespace Ravenflash.GamePrototype
         [SerializeField] Card _cardPrefab;
         [SerializeField] GameManagerSettings _settings;
 
-
         List<Card> _cards;
         Queue<Card> _queue;
-        int _currentStage = 0;
+        int _currentStageId = 0;
 
         #region Unity Methods
         private void OnDestroy()
@@ -42,7 +41,7 @@ namespace Ravenflash.GamePrototype
             try
             {
                 if (_cards is object && _cards.Count > 0) throw new Exception("Can't start next stage. Current stage is in progress.");
-                SetupStage(_currentStage+1);
+                SetupStage(_currentStageId+1);
                 StartGame();
             }
             catch { throw; }
@@ -53,7 +52,7 @@ namespace Ravenflash.GamePrototype
         #region Private Methods
         private void SetupStage(int stageId)
         {
-            _currentStage = stageId;
+            _currentStageId = stageId;
             CardLayout cardLayout = GetCardLayout(stageId);
             // Setup Layout
             _layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
@@ -133,6 +132,7 @@ namespace Ravenflash.GamePrototype
 
             if (c1.Equals(c2))
             {
+                GameEventManager.InvokeMatchSuccess();
                 c1.Hide();
                 c2.Hide();
                 _cards.Remove(c1);
@@ -141,6 +141,7 @@ namespace Ravenflash.GamePrototype
             }
             else
             {
+                GameEventManager.InvokeMatchFailed();
                 StartCoroutine(UnflipDelayed(c1, c2));
             }
         }
@@ -149,7 +150,7 @@ namespace Ravenflash.GamePrototype
         {
             Debug.Log("Level Complete");
             EndGame();
-            GameEventManager.InvokeStageCompleted();
+            GameEventManager.InvokeStageCompleted(_currentStageId);
             StartNextStage();
         }
 

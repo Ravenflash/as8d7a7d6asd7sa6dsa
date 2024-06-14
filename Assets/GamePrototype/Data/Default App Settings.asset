@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256d21bee21423d4cbeab82c4881ed3a, type: 3}
   m_Name: Default App Settings
   m_EditorClassIdentifier: 
-  fps: 30
+  fps: 60
+  scoringSystem: 1
+  matchSuccessScore: 100
+  stageCompleteScore: 1000

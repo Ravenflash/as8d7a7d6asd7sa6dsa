@@ -1383,6 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5985f68787ac3498c196107b66cf52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 767e6377b49b03b4fbc26934487337b2, type: 2}
   _game: {fileID: 1513872531}
 --- !u!1001 &1840542792
 PrefabInstance:
