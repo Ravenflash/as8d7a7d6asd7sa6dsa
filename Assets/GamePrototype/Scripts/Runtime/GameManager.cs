@@ -137,7 +137,7 @@ namespace Ravenflash.GamePrototype
         private IEnumerator UnflipDelayed(Card c1, Card c2)
         {
             float startTime = Time.timeSinceLevelLoad;
-            while (this && Time.timeSinceLevelLoad - startTime < _settings.cardDisplayDuration)
+            while (this && Time.timeSinceLevelLoad - startTime < _settings.cardDisplayDuration && _queue.Count <= 0)
             {
                 yield return null;
             }
