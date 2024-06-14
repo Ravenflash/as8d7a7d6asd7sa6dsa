@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5751009623816198443}
   - component: {fileID: 4850644155087129504}
   - component: {fileID: 8156206810535724653}
+  - component: {fileID: 6279471775943973796}
   m_Layer: 5
   m_Name: Card Prefab
   m_TagString: Untagged
@@ -121,7 +122,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4850644155087129504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6279471775943973796}
+        m_TargetAssemblyTypeName: Ravenflash.GamePrototype.Card, Ravenflash.GamePrototype
+        m_MethodName: Flip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6279471775943973796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156377061042928991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5a71d342d5340a4cae1ca3250313a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationDuration: 0.2
+  _button: {fileID: 8156206810535724653}
 --- !u!1 &4330197734416607692
 GameObject:
   m_ObjectHideFlags: 0
