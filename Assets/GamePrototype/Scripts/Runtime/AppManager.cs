@@ -21,7 +21,7 @@ namespace Ravenflash.GamePrototype
 
         private void Start()
         {
-            //Application.targetFrameRate = 5;
+            Application.targetFrameRate = 30;
             Game.StartNewGame();
         }
     }

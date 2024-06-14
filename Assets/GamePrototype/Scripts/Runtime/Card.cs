@@ -104,6 +104,7 @@ namespace Ravenflash.GamePrototype
                 yield return null;
             }
             transform.localScale = SCALE_ZOOMED * Vector3.one;
+            transform.rotation = finalRotation;
 
             GameEventManager.InvokeCardFlipped(this);
         }
@@ -124,6 +125,7 @@ namespace Ravenflash.GamePrototype
                 yield return null;
             }
             transform.localScale = Vector3.one;
+            transform.rotation = Quaternion.identity;
 
         }
 
