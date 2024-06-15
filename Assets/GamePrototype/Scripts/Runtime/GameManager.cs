@@ -14,6 +14,7 @@ namespace Ravenflash.GamePrototype
         [SerializeField] Card _cardPrefab;
         [SerializeField] GameManagerSettings _settings;
 
+        ObjectPool<Card> _cardPool;
         List<Card> _cards;
         Queue<Card> _queue;
         WaitForSeconds _cardStartingFlipInterval = new WaitForSeconds(.12f);
@@ -22,6 +23,12 @@ namespace Ravenflash.GamePrototype
         public int CurrentStageId { get; internal set; } = 0;
 
         #region Unity Methods
+
+        private void Start()
+        {
+            _cardPool = new ObjectPool<Card>(_cardPrefab);
+        }
+
         private void OnDestroy()
         {
             EndGame();
@@ -118,7 +125,8 @@ namespace Ravenflash.GamePrototype
             Card card;
             for (int i = 0; i < shuffledCardNames.Length; i++)
             {
-                card = Instantiate(_cardPrefab, _layout.transform);
+                //card = Instantiate(_cardPrefab, _layout.transform);
+                card = _cardPool.Get(_layout.transform);
 
                 card.SpriteName = shuffledCardNames[i];
                 card.IsClickable = false;
@@ -129,7 +137,13 @@ namespace Ravenflash.GamePrototype
         private void RemoveAllChildren(Transform parentTransform)
         {
             for (int i = 0; i < parentTransform.childCount; i++)
-                Destroy(parentTransform.GetChild(i).gameObject);
+            {
+                Card card = parentTransform.GetChild(i).gameObject.GetComponent<Card>();
+                if (card is object)
+                {
+                    _cardPool.ReturnToPool(card);
+                }
+            }
         }
 
         private void CompareLastTwoCards()

@@ -32,7 +32,7 @@ namespace Ravenflash.GamePrototype
         Image Image { get { if (!_image) _image = GetComponent<Image>(); return _image; } }
 
         [SerializeField] SpriteFromAtlas _sprite;
-        SpriteFromAtlas Sprite { get { if(!_sprite) _sprite = GetComponent<SpriteFromAtlas>(); return _sprite; } }
+        SpriteFromAtlas Sprite { get { if (!_sprite) _sprite = GetComponent<SpriteFromAtlas>(); return _sprite; } }
 
         public bool IsClickable { get => Button.interactable; set => Button.interactable = value; }
         public bool IsActiveAndClickable
@@ -45,17 +45,16 @@ namespace Ravenflash.GamePrototype
             }
         }
 
-        public bool IsFacingCamera => Vector3.Dot(transform.forward, Camera.transform.forward) < 0;
+        public bool IsFacingCamera => Vector3.Dot(transform.forward, Camera.transform.forward) <= 0;
         #endregion
 
-        void Start()
+        void OnEnable()
         {
-            try
-            {
-                Sprite.SetSprite(_reverseSpriteName);
-                _updateImageCoroutine = StartCoroutine(UpdateImage());
-            }
-            catch { throw; }
+            IsActiveAndClickable = true;
+            IsClickable = false;
+            transform.rotation = Quaternion.identity;
+            transform.localScale = Vector3.one;
+            Sprite.SetSprite(_reverseSpriteName);
         }
 
         public void Flip()
@@ -94,6 +93,7 @@ namespace Ravenflash.GamePrototype
             {
                 transform.localScale = Vector3.Lerp(Vector3.one, finalScale, progress);
                 transform.rotation = Quaternion.Lerp(Quaternion.identity, finalRotation, progress);
+                Sprite.SetSprite(IsFacingCamera ? SpriteName : _reverseSpriteName);
                 progress += Time.deltaTime / duration;
                 yield return null;
             }
@@ -115,6 +115,7 @@ namespace Ravenflash.GamePrototype
             {
                 transform.localScale = Vector3.Lerp(startScale, Vector3.one, progress);
                 transform.rotation = Quaternion.Lerp(startRotation, Quaternion.identity, progress);
+                Sprite.SetSprite(IsFacingCamera ? SpriteName : _reverseSpriteName);
                 progress += Time.deltaTime / duration;
                 yield return null;
             }
@@ -136,15 +137,6 @@ namespace Ravenflash.GamePrototype
             }
             transform.localScale = Vector3.zero;
             IsActiveAndClickable = false;
-        }
-
-        IEnumerator UpdateImage()
-        {
-            while (this)
-            {
-                Sprite.SetSprite(IsFacingCamera ? SpriteName : _reverseSpriteName);
-                yield return null;
-            }
         }
 
         #endregion

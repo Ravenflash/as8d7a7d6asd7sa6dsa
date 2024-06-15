@@ -32,8 +32,6 @@ MonoBehaviour:
   - card-tomato
   - card-watermelon
   layouts:
-  - cols: 8
-    rows: 4
   - cols: 2
     rows: 2
   - cols: 3
@@ -49,4 +47,6 @@ MonoBehaviour:
   - cols: 6
     rows: 4
   - cols: 7
+    rows: 4
+  - cols: 8
     rows: 4
