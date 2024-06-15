@@ -11,7 +11,6 @@ namespace Ravenflash.GamePrototype
     {
         const float SCALE_ZOOMED = 1.1f;
 
-        [SerializeField] SpriteAtlas _atlas;
         [SerializeField] string _reverseSpriteName;
         [SerializeField] float animationDuration = .2f;
 
@@ -32,6 +31,9 @@ namespace Ravenflash.GamePrototype
         [SerializeField] Image _image;
         Image Image { get { if (!_image) _image = GetComponent<Image>(); return _image; } }
 
+        [SerializeField] SpriteFromAtlas _sprite;
+        SpriteFromAtlas Sprite { get { if(!_sprite) _sprite = GetComponent<SpriteFromAtlas>(); return _sprite; } }
+
         public bool IsClickable { get => Button.interactable; set => Button.interactable = value; }
         public bool IsActiveAndClickable
         {
@@ -48,9 +50,12 @@ namespace Ravenflash.GamePrototype
 
         void Start()
         {
-            SetSprite(_reverseSpriteName);
-
-            _updateImageCoroutine = StartCoroutine(UpdateImage());
+            try
+            {
+                Sprite.SetSprite(_reverseSpriteName);
+                _updateImageCoroutine = StartCoroutine(UpdateImage());
+            }
+            catch { throw; }
         }
 
         public void Flip()
@@ -75,17 +80,6 @@ namespace Ravenflash.GamePrototype
         {
             return other.SpriteName == SpriteName;
         }
-
-
-        private void SetSprite(string spriteName)
-        {
-            try
-            {
-                Image.sprite = _atlas.GetSprite(spriteName);
-            }
-            catch { throw; }
-        }
-
 
         #region Animations
         IEnumerator FlipAnimation(float duration)
@@ -148,7 +142,7 @@ namespace Ravenflash.GamePrototype
         {
             while (this)
             {
-                SetSprite(IsFacingCamera ? SpriteName : _reverseSpriteName);
+                Sprite.SetSprite(IsFacingCamera ? SpriteName : _reverseSpriteName);
                 yield return null;
             }
         }

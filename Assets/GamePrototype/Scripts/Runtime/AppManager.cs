@@ -15,23 +15,67 @@ namespace Ravenflash.GamePrototype
 
     public class AppManager : Singleton<AppManager>
     {
+        public event Action onAppReady;
+
         [SerializeField] AppSettings _settings;
+
+        public bool IsReady { get; private set; } = false;
+        public ScoreManager Score { get; private set; }
 
         // Note: Find methods are costly but you can cache it.
         // Also it will not be called as long as the GameManager ref is provided in the editor.
         [SerializeField] GameManager _game;
-
-        ScoreManager _score;
-
         public GameManager Game { get { if (!_game) _game = FindObjectOfType<GameManager>(); return _game; } }
+
+        [SerializeField] ViewManager _view;
+        public ViewManager View { get { if (!_view) _view = FindObjectOfType<ViewManager>(); return _view; } }
 
         private void Start()
         {
+            base.Awake();
+            Score = GetScoringSystem();
             Application.targetFrameRate = _settings.fps;
 
-            _score = GetScoringSystem();
+            IsReady = true;
+            onAppReady?.Invoke();
 
-            Game.StartNewGame();
+            View?.DisplayMainMenu();
+            //Game?.StartNewGame();
+        }
+
+        public void StartNewGame()
+        {
+            try
+            {
+                View.DisplayGameplay();
+                Game.StartNewGame();
+            }
+            catch { throw; }
+        }
+
+        public void StartNextStage()
+        {
+            try
+            {
+                View.DisplayGameplay();
+                Game.StartNextStage();
+            }
+            catch { throw; }
+        }
+
+        public void SaveAndQuit()
+        {
+            try
+            {
+                //TODO: Save Progress
+                View.DisplayMainMenu();
+            }
+            catch { throw; }
+        }
+
+        public void QuitApp()
+        {
+            Application.Quit();
         }
 
         private ScoreManager GetScoringSystem()

@@ -17,9 +17,10 @@ namespace Ravenflash.GamePrototype
         // Gameplay Events
         public static event Action onMatchSuccess, onMatchFailed;
         public static event Action onNewGameStarted, onGameOver;
-        public static event Action<int> onStageCompleted;
+        public static event Action<int> onStageStarted, onStageCompleted;
 
         public static void InvokeNewGameStarted() => onNewGameStarted?.Invoke();
+        public static void InvokeStageStarted(int stageId) => onStageStarted?.Invoke(stageId);
         public static void InvokeStageCompleted(int stageId) => onStageCompleted?.Invoke(stageId);
         public static void InvokeMatchSuccess() => onMatchSuccess?.Invoke();
         public static void InvokeMatchFailed() => onMatchFailed?.Invoke();

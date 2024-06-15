@@ -11,14 +11,13 @@ namespace Ravenflash.GamePrototype
 
         public ComboScoreManager(int successScore = 100, int stageCompleteScore = 1000) : base(successScore, stageCompleteScore) 
         {
-            Debug.Log("Combo Score Manager Init");
         }
 
         protected override void HandleMatchSuccess()
         {
             _combo++;
-            score += _combo * successScore;
-            Debug.Log($"Score: {score}");
+            StageScore += _combo * successScore;
+            Debug.Log($"Score: {StageScore}");
         }
 
         protected override void HandleMatchFailed()

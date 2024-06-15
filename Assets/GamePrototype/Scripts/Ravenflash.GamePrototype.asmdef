@@ -2,7 +2,8 @@
     "name": "Ravenflash.GamePrototype",
     "rootNamespace": "Ravenflash.GamePrototype",
     "references": [
-        "GUID:5ab1cf6072d8032469d9da09a72b318c"
+        "GUID:5ab1cf6072d8032469d9da09a72b318c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

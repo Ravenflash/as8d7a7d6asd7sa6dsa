@@ -26,7 +26,7 @@ namespace Ravenflash.GamePrototype
         #endregion
 
         #region Public Methods
-        public void StartNewGame()
+        internal void StartNewGame()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Ravenflash.GamePrototype
             catch { throw; }
         }
 
-        public void StartNextStage()
+        internal void StartNextStage()
         {
             try
             {
@@ -61,6 +61,7 @@ namespace Ravenflash.GamePrototype
             // Spawn Cards
             RemoveAllChildren(_layout.transform);
             SpawnCards(cardLayout.CardCount);
+            GameEventManager.InvokeStageStarted(_currentStageId);
         }
 
         private CardLayout GetCardLayout(int stageId)
@@ -151,7 +152,7 @@ namespace Ravenflash.GamePrototype
             Debug.Log("Level Complete");
             EndGame();
             GameEventManager.InvokeStageCompleted(_currentStageId);
-            StartNextStage();
+            //StartNextStage();
         }
 
         #endregion

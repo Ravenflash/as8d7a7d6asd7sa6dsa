@@ -45,6 +45,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 3fa16b6bbf51d334b982ed2eb9255718, type: 3}
+    - {fileID: 102900000, guid: 83414e70a5cdaa74e9c762e96f3fc50d, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -57,9 +58,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ff7be394fc9321e4d8daa103def388fe, type: 3}
   - {fileID: 21300000, guid: ffdf78a49f594354daa8ab353110d2f9, type: 3}
   - {fileID: 21300000, guid: 6ea89ff4150bf9440a8b913b5ba2911b, type: 3}
+  - {fileID: 21300000, guid: 8291edf597b25c54c992805a04442d09, type: 3}
   - {fileID: 21300000, guid: 91b89067ec58f634a96067df12c5d670, type: 3}
   - {fileID: 21300000, guid: ae97e3f7449658a498724a12f3c6a999, type: 3}
+  - {fileID: 21300000, guid: e24e6e49791573d46bfe0beb5d3fdc00, type: 3}
   - {fileID: 21300000, guid: ebfc5a8b5f77dab4b84a0fc3fc691966, type: 3}
+  - {fileID: 21300000, guid: 6311d59bd53b9d3498a9c4c88e8456ef, type: 3}
   - {fileID: 21300000, guid: f7c9b9db14357c641a6e7db1e0091c66, type: 3}
   - {fileID: 21300000, guid: 4cb4fc0c1fe6f7543a9bb5f4c0e619d6, type: 3}
   - {fileID: 21300000, guid: 0312817c5d0ff1e49b9444a4e1fb7be3, type: 3}
@@ -76,9 +80,12 @@ SpriteAtlas:
   - card-watermelon
   - card-rapple
   - card-mango
+  - text_stage_complete
   - card-melon
   - card-pear
+  - text_game_over
   - card-peach
+  - text_main_menu
   - card-cherry
   - card-lemon
   - card-gapple

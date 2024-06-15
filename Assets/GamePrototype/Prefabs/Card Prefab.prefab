@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4850644155087129504}
   - component: {fileID: 8156206810535724653}
   - component: {fileID: 6279471775943973796}
+  - component: {fileID: 7796315437144408928}
   m_Layer: 5
   m_Name: Card Prefab
   m_TagString: Untagged
@@ -146,10 +147,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a71d342d5340a4cae1ca3250313a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _atlas: {fileID: 4343727234628468602, guid: 313a5195880623c4292451f0a9233c79, type: 2}
   _reverseSpriteName: card-reverse
   animationDuration: 0.2
   <SpriteName>k__BackingField: 
   _camera: {fileID: 0}
   _button: {fileID: 8156206810535724653}
+  _image: {fileID: 4850644155087129504}
+  _sprite: {fileID: 7796315437144408928}
+--- !u!114 &7796315437144408928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156377061042928991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997320ef8f57a004ab976cab63a60232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _atlas: {fileID: 4343727234628468602, guid: 313a5195880623c4292451f0a9233c79, type: 2}
   _image: {fileID: 4850644155087129504}

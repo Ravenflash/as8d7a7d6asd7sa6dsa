@@ -7,8 +7,29 @@ namespace Ravenflash.GamePrototype
 {
     public class ScoreManager
     {
-        protected int score;
+        public event Action<int> onScoreUpdate, onTotalScoreUpdate;
+
         protected int successScore, stageCompleteScore;
+
+        private int _stageScore, _totalScore;
+        public int StageScore
+        {
+            get => _stageScore;
+            protected set
+            {
+                _stageScore = value;
+                onScoreUpdate?.Invoke(_stageScore);
+            }
+        }
+        public int TotalScore
+        {
+            get => _totalScore;
+            protected set
+            {
+                _totalScore = value;
+                onTotalScoreUpdate?.Invoke(_totalScore);
+            }
+        }
 
         public ScoreManager(int successScore = 100, int stageCompleteScore = 1000)
         {
@@ -16,6 +37,7 @@ namespace Ravenflash.GamePrototype
             this.stageCompleteScore = stageCompleteScore;
             GameEventManager.onMatchSuccess += HandleMatchSuccess;
             GameEventManager.onMatchFailed += HandleMatchFailed;
+            GameEventManager.onStageStarted += HandleStageStarted;
             GameEventManager.onStageCompleted += HandleStageCompleted;
         }
 
@@ -23,15 +45,16 @@ namespace Ravenflash.GamePrototype
         {
             GameEventManager.onMatchSuccess -= HandleMatchSuccess;
             GameEventManager.onMatchFailed -= HandleMatchFailed;
+            GameEventManager.onStageStarted -= HandleStageStarted;
             GameEventManager.onStageCompleted -= HandleStageCompleted;
         }
 
-        public void Reset() => score = 0;
+        public void Reset() => StageScore = 0;
 
         protected virtual void HandleMatchSuccess()
         {
-            score += successScore;
-            Debug.Log($"Score: {score}");
+            StageScore += successScore;
+            Debug.Log($"Score: {StageScore}");
         }
 
         protected virtual void HandleMatchFailed()
@@ -41,8 +64,13 @@ namespace Ravenflash.GamePrototype
 
         protected virtual void HandleStageCompleted(int stageId)
         {
-            score += stageCompleteScore * (1 + stageId);
-            Debug.Log($"Final Score: {score}");
+            TotalScore += StageScore + stageCompleteScore * (1 + stageId);
+            Debug.Log($"Total Score: {StageScore}");
+        }
+
+        protected virtual void HandleStageStarted(int obj)
+        {
+            StageScore = 0;
         }
 
     }
