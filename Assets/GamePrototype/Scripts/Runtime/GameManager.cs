@@ -88,6 +88,7 @@ namespace Ravenflash.GamePrototype
         private void SpawnCards(int cardsCount)
         {
             if (cardsCount % 2f != 0) throw new Exception("Card Count can't be odd! You need pairs.");
+            if (cardsCount > _settings.cardNames.Length * 2f) throw new Exception("Not enought card types. Need more Sprites in the atlas.");
 
             List<string> allCardNames = _settings.cardNames.ToList();
             List<string> randomCardPairs = new List<string>();

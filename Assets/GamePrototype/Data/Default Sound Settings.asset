@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5938d30cf27302744bad3bb6b57dde55, type: 3}
+  m_Name: Default Sound Settings
+  m_EditorClassIdentifier: 
+  _flipSfx: {fileID: 8300000, guid: 0d1ab035fe6240849b7d8225a7c19fa5, type: 3}
+  _matchSfx: {fileID: 8300000, guid: 75a82e2b7c507304c8d452b172eaddee, type: 3}
+  _errorSfx: {fileID: 8300000, guid: 3556c278b2df93641b29a9bd923fb50b, type: 3}
+  _completeMusic: {fileID: 8300000, guid: d041dddc71efbf24f87c6e5c42159da5, type: 3}
+  _gameoverMusic: {fileID: 8300000, guid: d041dddc71efbf24f87c6e5c42159da5, type: 3}

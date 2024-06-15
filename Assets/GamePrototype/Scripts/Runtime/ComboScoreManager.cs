@@ -17,7 +17,7 @@ namespace Ravenflash.GamePrototype
         {
             _combo++;
             StageScore += _combo * successScore;
-            Debug.Log($"Score: {StageScore}");
+            //Debug.Log($"Score: {StageScore}");
         }
 
         protected override void HandleMatchFailed()

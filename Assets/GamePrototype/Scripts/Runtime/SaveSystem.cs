@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Ravenflash.GamePrototype
 {
+    // Note: Basic saving system. For larger data a custom json saving system is required. 
+    // But for a game prototype PlayerPrefs will do.
     public class SaveSystem : ISaveSystem
     {
         const string KEY_STAGE_ID = "Stage_ID";
