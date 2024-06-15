@@ -32,7 +32,8 @@ namespace Ravenflash.GamePrototype
             try
             {
                 SetupStage(0);
-                StartGame();
+                StartCoroutine(StartingAnimation());
+                //StartGame();
             }
             catch { throw; }
         }
@@ -43,7 +44,8 @@ namespace Ravenflash.GamePrototype
             {
                 if (_cards is object && _cards.Count > 0) throw new Exception("Can't start next stage. Current stage is in progress.");
                 SetupStage(CurrentStageId+1);
-                StartGame();
+                StartCoroutine(StartingAnimation());
+                //StartGame();
             }
             catch { throw; }
         }
@@ -55,6 +57,7 @@ namespace Ravenflash.GamePrototype
         {
             CurrentStageId = stageId;
             CardLayout cardLayout = GetCardLayout(stageId);
+
             // Setup Layout
             _layout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             _layout.constraintCount = cardLayout.cols;
@@ -77,8 +80,30 @@ namespace Ravenflash.GamePrototype
             GameEventManager.onCardSelected += HandleCardSelected;
             GameEventManager.onCardFlipped += HandleCardFlipped;
 
-            foreach (var card in _cards) { card.IsActiveAndClickable = true; }
+            //foreach (var card in _cards) { card.IsActiveAndClickable = true; }
         }
+
+        private IEnumerator StartingAnimation()
+        {
+            foreach (var card in _cards) { card.IsActiveAndClickable = true; }
+
+            yield return null;
+
+            foreach (var card in _cards) {
+                card.Flip();
+                yield return null;
+            }
+            yield return new WaitForSeconds(2f);
+            foreach (var card in _cards)
+            {
+                card.Unflip();
+                yield return null;
+            }
+            foreach (var card in _cards) { card.IsActiveAndClickable = true; }
+            
+            StartGame();
+        }
+
         private void EndGame()
         {
             GameEventManager.onCardSelected -= HandleCardSelected;
