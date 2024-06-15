@@ -16,6 +16,8 @@ namespace Ravenflash.GamePrototype
 
         List<Card> _cards;
         Queue<Card> _queue;
+        WaitForSeconds _cardStartingFlipInterval = new WaitForSeconds(.12f);
+        WaitForSeconds _cardStartingUnflipInterval = new WaitForSeconds(.01f);
 
         public int CurrentStageId { get; internal set; } = 0;
 
@@ -79,29 +81,6 @@ namespace Ravenflash.GamePrototype
             _queue = new Queue<Card>();
             GameEventManager.onCardSelected += HandleCardSelected;
             GameEventManager.onCardFlipped += HandleCardFlipped;
-
-            //foreach (var card in _cards) { card.IsActiveAndClickable = true; }
-        }
-
-        private IEnumerator StartingAnimation()
-        {
-            foreach (var card in _cards) { card.IsActiveAndClickable = true; }
-
-            yield return null;
-
-            foreach (var card in _cards) {
-                card.Flip();
-                yield return null;
-            }
-            yield return new WaitForSeconds(2f);
-            foreach (var card in _cards)
-            {
-                card.Unflip();
-                yield return null;
-            }
-            foreach (var card in _cards) { card.IsActiveAndClickable = true; }
-            
-            StartGame();
         }
 
         private void EndGame()
@@ -182,6 +161,39 @@ namespace Ravenflash.GamePrototype
             //StartNextStage();
         }
 
+        #endregion
+
+        #region Animations
+        private IEnumerator StartingAnimation()
+        {
+            foreach (var card in _cards) { card.IsActiveAndClickable = true; card.IsClickable = false; }
+
+            List<Card> allCards = new List<Card>(_cards);
+            Card[] shuffledCards = new Card[allCards.Count];
+            for (int i = 0; i < shuffledCards.Length; i++)
+            {
+                int rand = Random.Range(0, allCards.Count);
+                shuffledCards[i] = allCards[rand];
+                allCards.RemoveAt(rand);
+            }
+
+            yield return null;
+
+            foreach (var card in shuffledCards)
+            {
+                card.Flip();
+                yield return _cardStartingFlipInterval;
+            }
+            yield return new WaitForSeconds(_settings.cardDisplayDuration);
+            foreach (var card in shuffledCards)
+            {
+                card.Unflip();
+                yield return _cardStartingUnflipInterval;
+            }
+            foreach (var card in _cards) { card.IsActiveAndClickable = true; }
+
+            StartGame();
+        }
         #endregion
 
         #region Event Handlers
