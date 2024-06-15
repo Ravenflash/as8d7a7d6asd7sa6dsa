@@ -24,7 +24,7 @@ namespace Ravenflash.GamePrototype
         public int TotalScore
         {
             get => _totalScore;
-            protected set
+            protected internal set
             {
                 _totalScore = value;
                 onTotalScoreUpdate?.Invoke(_totalScore);

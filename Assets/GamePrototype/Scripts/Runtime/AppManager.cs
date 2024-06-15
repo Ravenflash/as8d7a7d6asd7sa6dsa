@@ -22,6 +22,8 @@ namespace Ravenflash.GamePrototype
         public bool IsReady { get; private set; } = false;
         public ScoreManager Score { get; private set; }
 
+        public ISaveSystem SaveSystem { get; private set; }
+
         // Note: Find methods are costly but you can cache it.
         // Also it will not be called as long as the GameManager ref is provided in the editor.
         [SerializeField] GameManager _game;
@@ -34,21 +36,36 @@ namespace Ravenflash.GamePrototype
         {
             base.Awake();
             Score = GetScoringSystem();
+            SaveSystem = new SaveSystem();
             Application.targetFrameRate = _settings.fps;
 
             IsReady = true;
             onAppReady?.Invoke();
 
             View?.DisplayMainMenu();
-            //Game?.StartNewGame();
         }
 
         public void StartNewGame()
         {
             try
             {
+                SaveSystem.Clear();
                 View.DisplayGameplay();
                 Game.StartNewGame();
+            }
+            catch { throw; }
+        }
+
+        public void LoadAndContinueGame()
+        {
+            SaveData data = SaveSystem.Load();
+            try
+            {
+                Score.TotalScore = data.totalScore;
+                Game.CurrentStageId = data.stageId;
+                SaveSystem.Clear();
+                View.DisplayGameplay(); 
+                Game.StartNextStage();
             }
             catch { throw; }
         }
@@ -67,7 +84,7 @@ namespace Ravenflash.GamePrototype
         {
             try
             {
-                //TODO: Save Progress
+                SaveSystem.Save(new SaveData(Game.CurrentStageId, Score.TotalScore));
                 View.DisplayMainMenu();
             }
             catch { throw; }
@@ -87,6 +104,18 @@ namespace Ravenflash.GamePrototype
                 default:
                     return new ScoreManager(_settings.matchSuccessScore, _settings.stageCompleteScore);
             }
+        }
+    }
+
+    public struct SaveData
+    {
+        public int stageId;
+        public int totalScore;
+
+        public SaveData(int stageId, int totalScore)
+        {
+            this.stageId = stageId; 
+            this.totalScore = totalScore;
         }
     }
 }

@@ -1288,10 +1288,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4900284}
-        m_TargetAssemblyTypeName: Ravenflash.GamePrototype.ViewManager, Ravenflash.GamePrototype
-        m_MethodName: DisplayMainMenu
-        m_Mode: 4
+      - m_Target: {fileID: 1660266658}
+        m_TargetAssemblyTypeName: Ravenflash.GamePrototype.AppManager, Ravenflash.GamePrototype
+        m_MethodName: SaveAndQuit
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2510,7 +2510,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 838551075}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1660266658}
+        m_TargetAssemblyTypeName: Ravenflash.GamePrototype.AppManager, Ravenflash.GamePrototype
+        m_MethodName: LoadAndContinueGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &838551075
 MonoBehaviour:
   m_ObjectHideFlags: 0
